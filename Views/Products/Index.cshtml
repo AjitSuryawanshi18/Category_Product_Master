@@ -1,0 +1,82 @@
+﻿@model PagedList.IPagedList<Category_Product.Models.Product>
+@using PagedList;
+@using PagedList.Mvc;
+@*this link will help for pagination stylling provided by microsoft offitial site*@
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title ="Product Home Page";
+}
+
+<h2>Product Home Page </h2>
+
+<h4>Product List</h4>
+<p >
+    <a href="http://localhost:60668/Categories" class="btn bg-info text-white"> << Category Page</a>
+</p>
+<hr />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().ProductId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Category.CategoryId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Category.CategoryName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+            </td>
+           
+            <td class="btn btn-dark bg-black" style="margin:3px">
+                @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) 
+            </td>
+            <td class="btn btn-danger bg-danger" style="margin:3px">
+                @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
+            </td>
+       
+        </tr>
+    }
+    
+</table>
+
+<p>
+    @*@Html.ActionLink("Create New", "Create")*@
+    <a href="/Products/Create" class="btn bg-success text-white">Create New</a>
+</p>
+
+
+@*Pagination coding*@ 
+@* margin for moving pagination bar  *@
+<div style="margin-left:75%">
+
+        <div>
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)  <span class="text-success">OF</span>  @Model.PageCount 
+
+        </div>
+        <div class="page-item ">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+
+        </div>
+    </div>
+

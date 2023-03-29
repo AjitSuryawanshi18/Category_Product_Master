@@ -1,0 +1,65 @@
+﻿@*@model IEnumerable<Category_Product.Models.Category>*@
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<Category_Product.Models.Category>
+@*this link will help for pagination stylling provided by microsoft offitial site*@
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Category Master";
+}
+
+<h4>Category Master</h4>
+<p>
+    <a href="http://localhost:60668/Products" class="btn bg-info text-white">Product Page >> </a>
+</p>
+<h6 class="text-success">For Category Id do Check "Details" -->></h6>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().CategoryName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+
+            <td class="btn btn-dark m-1">
+                @Html.ActionLink("Edit", "Edit", new { id = item.CategoryId }) |
+
+            </td>
+            <td class="btn btn-info m-1">
+                @Html.ActionLink("Details", "Details", new { id = item.CategoryId }) |
+
+            </td>
+            <td class="btn btn-danger m-1">
+                @Html.ActionLink("Delete", "Delete", new { id = item.CategoryId }) |
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+<div style="margin-left:75%">
+
+    <div>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)  <span class="text-success">OF</span>  @Model.PageCount
+
+    </div>
+    <div class="page-item ">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+
+    </div>
+</div>
+
+<p>
+    @*@Html.ActionLink("Create New", "Create")*@
+    <a href="/Categories/Create" class="btn btn-success">Create New</a>
+</p>
